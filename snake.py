@@ -2,8 +2,10 @@ import turtle
 import time
 import random
 
+
+scr = turtle.Screen()
 window = turtle.Screen()
-window.title("Mackas mi hada debile")
+window.title("Mackas mi hadaa")
 window.bgcolor("pink")
 window.setup(width=1425, height=850)
 window.listen()
@@ -50,37 +52,40 @@ def down():
 
 window.onkeypress(down, "Down")
 
-def move():
-    speed = 4
+def move(i):
+    speed = i
     snake.forward(speed)
 
 while True:
     window.update()
-
-    if snake.ycor() > 425 or snake.ycor() < -425 or snake.xcor() > 712 or snake.xcor() < -712:
-        time.sleep(0.5)
+# Narážení do stěn
+    if snake.ycor() > 405 or snake.ycor() < -405 or snake.xcor() > 692 or snake.xcor() < -692:
+        for i in range(30):
+            snake.forward(i)
+            snake.left(i) 
+        
         snake.goto(0,0)
-        if score > 2:
-            score -= 2
-            pen.clear()
-            pen.write(f"Skore: {score}", align="center", font=("calibri", 24, "bold"))  
-        elif score == 1:
-            score = 0
-            pen.clear()
-            pen.write(f"Skore: {score}", align="center", font=("calibri", 24, "bold"))
-        else:
-            score =0
-            pen.clear()
-            pen.write(f"Skore: {score}", align="center", font=("calibri", 24, "bold"))
-
-    if snake.distance(food) < 20:
+        pen.clear()
+        pen.write(f"        Score: {score}\n    GAME OVER",  align="center", font=("calibri", 24, "bold"))
+        turtle.exitonclick()
+# Jezení jídla
+    elif snake.distance(food) < 20:
         x = random.randint(-712,712)
         y = random.randint(-425,425)
         food.goto(x,y)
         score += 1
         pen.clear()
         pen.write(f"Skore: {score}", align="center", font=("calibri", 24, "bold"))   
-        
-            
-    move()
+# Zrychlování       
+    if score == 0:
+        move(10)
+    
+    elif score == 1:
+        move(2)
+
+    elif score >= 10:
+        move(10)
+
+    else:
+        move(score)
     time.sleep(0.01)
