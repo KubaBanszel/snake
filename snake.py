@@ -78,7 +78,7 @@ while True:
         pen.write(f"Skore: {score}", align="center", font=("calibri", 24, "bold"))   
 # Zrychlování       
     if score == 0:
-        move(10)
+        move(1)
     
     elif score == 1:
         move(2)
