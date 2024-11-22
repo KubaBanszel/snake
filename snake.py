@@ -33,22 +33,26 @@ pen.write(f"Skore: {score}", align="center", font=("calibri", 24, "bold"))
 
 
 def up():
-    snake.setheading(90)
+    if snake.heading() != 270:
+        snake.setheading(90)
 
 window.onkeypress(up, "Up")
 
 def left():
-    snake.setheading(180)
+    if snake.heading() != 0:
+        snake.setheading(180)
 
 window.onkeypress(left, "Left")
 
 def right():
-    snake.setheading(0)
+    if snake.heading() != 180:
+        snake.setheading(0)
 
 window.onkeypress(right, "Right")
 
 def down():
-    snake.setheading(270)
+    if snake.heading() != 90:
+        snake.setheading(270)
 
 window.onkeypress(down, "Down")
 
@@ -59,7 +63,7 @@ def move(i):
 while True:
     window.update()
 # Narážení do stěn
-    if snake.ycor() > 405 or snake.ycor() < -405 or snake.xcor() > 692 or snake.xcor() < -692:
+    if snake.ycor() > 415 or snake.ycor() < -405 or snake.xcor() > 692 or snake.xcor() < -692:
         for i in range(30):
             snake.forward(i)
             snake.left(i) 
