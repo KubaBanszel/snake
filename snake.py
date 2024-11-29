@@ -57,8 +57,7 @@ def down():
 window.onkeypress(down, "Down")
 
 def move(i):
-    speed = i
-    snake.forward(speed)
+    snake.forward(i)
 
 while True:
     window.update()
