@@ -31,6 +31,8 @@ pen.penup()
 pen.goto(0,250)
 pen.write(f"Skore: {score}", align="center", font=("calibri", 24, "bold"))
 
+body = []
+
 
 def up():
     if snake.heading() != 270:
@@ -56,7 +58,19 @@ def down():
 
 window.onkeypress(down, "Down")
 
+def chcipni():
+    pen.clear()
+    pen.write(f"        Score: {score}\n    GAME OVER",  align="center", font=("calibri", 24, "bold"))
+    turtle.exitonclick()
+
 def move(i):
+    previousPosition = snake.position()
+
+    for member in body:
+        currentPosition = member.position()
+        member.setposition(previousPosition)
+        previousPosition = currentPosition
+
     snake.forward(i)
 
 while True:
@@ -68,27 +82,35 @@ while True:
             snake.left(i) 
         
         snake.goto(0,0)
-        pen.clear()
-        pen.write(f"        Score: {score}\n    GAME OVER",  align="center", font=("calibri", 24, "bold"))
-        turtle.exitonclick()
+        chcipni()
 # Jezení jídla
     elif snake.distance(food) < 20:
         x = random.randint(-712,712)
-        y = random.randint(-425,425)
+        y = random.randint(-405,405)
         food.goto(x,y)
         score += 1
         pen.clear()
-        pen.write(f"Skore: {score}", align="center", font=("calibri", 24, "bold"))   
+        pen.write(f"Skore: {score}", align="center", font=("calibri", 24, "bold")) 
+        member = turtle.Turtle()
+        member.penup()
+        member.shape("square")
+        member.color("orange")
+        member.setposition(snake.position())
+        body.insert(0, member)
+#kousání do těla
+    for member in body[5:]:
+        if snake.distance(member.position()) < 15:
+            chcipni()
 # Zrychlování       
     if score == 0:
-        move(1)
+        move(2)
     
     elif score == 1:
-        move(2)
+        move(3)
 
     elif score >= 10:
         move(10)
 
     else:
-        move(score)
+        move(score+1)
     time.sleep(0.01)
