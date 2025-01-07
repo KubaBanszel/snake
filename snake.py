@@ -98,12 +98,13 @@ def addPoint(a):
         score = 0
     pen.clear()
     pen.write(f"Skore: {score}", align="center", font=("calibri", 24, "bold")) 
-    member = turtle.Turtle()
-    member.penup()
-    member.shape("square")
-    member.color("orange")
-    member.setposition(snake.position())
-    body.insert(0, member)
+    for i in range(a):    
+        member = turtle.Turtle()
+        member.penup()
+        member.shape("square")
+        member.color("black")
+        member.setposition(snake.position())
+        body.insert(0, member)
     chime.success()
     chime.theme("mario")
 
@@ -116,43 +117,39 @@ while True:
 
 # Jezení jídla
     elif snake.distance(food) < 20:
-        addPoint(1)
+        
         x = random.randint(-712,712)
         y = random.randint(-405,405)
         food.goto(x,y)
-        
+        addPoint(1)
         
     elif snake.distance(food2) < 20:
-        addPoint(1)
+        
         x = random.randint(-712,712)
         y = random.randint(-405,405)
         food2.goto(x,y)
-        
+        addPoint(1)
     
     elif snake.distance(mystery) < 20:
-        kolik = random.randint(-5, 5)
-        addPoint(kolik)
         x = random.randint(-712,712)
         y = random.randint(-405,405)
         mystery.goto(x,y)
-        
+        kolik = random.randint(0, 5)
+        addPoint(kolik)
         
 #kousání do těla
     for member in body[5:]:
-        if snake.distance(member.position()) < 15:
+        if snake.distance(member.position()) < 1:
             chcipni()
 
 # Zrychlování       
-    if score == 0:
-        move(1)
-    
-    elif score == 1:
+    if score < 10:
         move(2)
-
-    elif score >= 10:
-        move(10)
+    
+    elif score > 30:
+        move(6)
 
     else:
-        move(score)
+        move(score/5)
     
     time.sleep(0.01)
