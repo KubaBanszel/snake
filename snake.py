@@ -5,9 +5,11 @@ import chime
 
 body = []
 
+# zapínací zvuk
 chime.success()
 chime.theme("mario")
 
+# Definice hrací plochy, hada, dvou jídel, mystery boxu a skóre
 scr = turtle.Screen()
 window = turtle.Screen()
 window.title("Hadik vrum vrum")
@@ -48,7 +50,7 @@ pen.penup()
 pen.goto(0,250)
 pen.write(f"Skore: {score}", align="center", font=("calibri", 24, "bold"))
 
-
+# Pohyb hada
 def up():
     if snake.heading() != 270:
         snake.setheading(90)
@@ -73,11 +75,15 @@ def down():
 
 window.onkeypress(down, "Down")
 
+# Smrt
 def chcipni():
+    chime.error()
+    chime.theme("mario")
     pen.clear()
     pen.write(f"        Score: {score}\n    GAME OVER",  align="center", font=("calibri", 24, "bold"))
     turtle.exitonclick()
 
+# Pohyb hada
 def move(i):
     previousPosition = snake.position()
 
@@ -87,12 +93,9 @@ def move(i):
         previousPosition = currentPosition
 
     snake.forward(i)
-
+# Přidání bodu
 def addPoint(a):
-    global score
-    global pen
-    global member
-    global body
+    global score, pen, member, body
     score += a
     if score < 0:
         score = 0
@@ -108,6 +111,7 @@ def addPoint(a):
     chime.success()
     chime.theme("mario")
 
+# Hlavní smyčka
 while True:
     window.update()
 
@@ -115,7 +119,7 @@ while True:
     if snake.ycor() > 415 or snake.ycor() < -405 or snake.xcor() > 692 or snake.xcor() < -692:        
         chcipni()
 
-# Jezení jídla
+# Jezení jídla a mystery boxu
     elif snake.distance(food) < 20:
         
         x = random.randint(-712,712)
