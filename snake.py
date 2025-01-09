@@ -2,8 +2,23 @@ import turtle
 import time
 import random
 import chime
+import os.path
 
 body = []
+
+# Vytvareni souboru pro top skóre
+if not os.path.isfile("top_score.txt"):
+    open("top_score.txt", "x").close()
+
+
+# Získání top skóre
+def top_score():
+    f = open("top_score.txt", "r")
+    lines = f.readlines()
+    if len(lines) > 0:
+        return int(lines[0])
+    else:
+        return 0
 
 # zapínací zvuk
 chime.success()
@@ -14,7 +29,7 @@ scr = turtle.Screen()
 window = turtle.Screen()
 window.title("Hadik vrum vrum")
 window.bgcolor("pink")
-window.setup(width=1425, height=850)
+window.setup(width=1000, height=850)
 window.listen()
 window.tracer(0)
 
@@ -48,7 +63,7 @@ pen = turtle.Turtle()
 pen.hideturtle()
 pen.penup()
 pen.goto(0,250)
-pen.write(f"Skore: {score}", align="center", font=("calibri", 24, "bold"))
+pen.write(f"Score: {score}  Top score: {top_score()}", align="center", font=("calibri", 24, "bold"))
 
 # Pohyb hada
 def up():
@@ -80,7 +95,8 @@ def chcipni():
     chime.error()
     chime.theme("mario")
     pen.clear()
-    pen.write(f"        Score: {score}\n    GAME OVER",  align="center", font=("calibri", 24, "bold"))
+    pen.write(f"Score: {score}  Top score: {top_score()}\n",  align="center", font=("calibri", 24, "bold"))
+    pen.write(f"GAME OVER",  align="center", font=("calibri", 24, "bold"))
     turtle.exitonclick()
 
 # Pohyb hada
@@ -97,10 +113,12 @@ def move(i):
 def addPoint(a):
     global score, pen, member, body
     score += a
-    if score < 0:
-        score = 0
+    if score > top_score():
+        f = open("top_score.txt", "w")
+        f.write(str(score))
+        f.close()
     pen.clear()
-    pen.write(f"Skore: {score}", align="center", font=("calibri", 24, "bold")) 
+    pen.write(f"Score: {score}  Top score: {top_score()}", align="center", font=("calibri", 24, "bold")) 
     for i in range(a):    
         member = turtle.Turtle()
         member.penup()
@@ -116,26 +134,26 @@ while True:
     window.update()
 
 # Narážení do stěn
-    if snake.ycor() > 415 or snake.ycor() < -405 or snake.xcor() > 692 or snake.xcor() < -692:        
+    if snake.ycor() > 415 or snake.ycor() < -405 or snake.xcor() > 485 or snake.xcor() < -485:        
         chcipni()
 
 # Jezení jídla a mystery boxu
     elif snake.distance(food) < 20:
         
-        x = random.randint(-712,712)
+        x = random.randint(-480,480)
         y = random.randint(-405,405)
         food.goto(x,y)
         addPoint(1)
         
     elif snake.distance(food2) < 20:
         
-        x = random.randint(-712,712)
+        x = random.randint(-480,480)
         y = random.randint(-405,405)
         food2.goto(x,y)
         addPoint(1)
     
     elif snake.distance(mystery) < 20:
-        x = random.randint(-712,712)
+        x = random.randint(-480,480)
         y = random.randint(-405,405)
         mystery.goto(x,y)
         kolik = random.randint(0, 5)
